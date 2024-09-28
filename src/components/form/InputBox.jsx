@@ -8,6 +8,7 @@ const InputBox = ({
   id,
   className,
   inputClassName,
+  onChange,
 }) => {
   return (
     <div className={`input-field ${className}`}>
@@ -20,6 +21,7 @@ const InputBox = ({
         id={id}
         type={type}
         placeholder={placeholder}
+        onChange={onChange}
       />
     </div>
   );
