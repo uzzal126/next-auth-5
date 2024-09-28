@@ -1,5 +1,6 @@
 "use client";
 
+import { socialLogin } from "@/src/app/actions";
 import InputBox from "@/src/components/form/InputBox";
 import Link from "next/link";
 
@@ -53,14 +54,24 @@ const LoginForm = () => {
       <div className="mt-6 mb-7 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-dashed before:border-[#bdbdbd] after:mt-0.5 after:flex-1 after:border-t after:border-dashed after:border-[#bdbdbd]">
         <p className="mx-4 mb-0 text-center font-medium text-base">Or</p>
       </div>
-      <div className="space-y-4">
-        <button className="w-full border text-base text-paragraph py-3 px-5 rounded-lg hover:bg-primary hover:border-primary hover:text-white">
+      <form action={socialLogin} className="flex space-x-5">
+        <button
+          type="submit"
+          value="google"
+          name="action"
+          className="w-full border text-base text-paragraph py-3 px-5 rounded-lg hover:bg-primary hover:border-primary hover:text-white"
+        >
           Continue with Google
         </button>
-        <button className="w-full border text-base text-paragraph py-3 px-5 rounded-lg hover:bg-primary hover:border-primary hover:text-white">
+        <button
+          type="submit"
+          value="github"
+          name="action"
+          className="w-full border text-base text-paragraph py-3 px-5 rounded-lg hover:bg-primary hover:border-primary hover:text-white"
+        >
           Continue with Github
         </button>
-      </div>
+      </form>
     </div>
   );
 };

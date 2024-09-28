@@ -16,7 +16,7 @@ const Navigation = () => {
         </li>
         <li className="group relative">
           <Link
-            href="/"
+            href="/about"
             className="py-6 text-lg text-heading hover:text-primary"
           >
             About
