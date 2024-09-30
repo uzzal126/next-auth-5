@@ -5,7 +5,7 @@ import logo from "@/public/images/logo/logo.png";
 import Navigation from "@/src/components/header/Navigation";
 
 import { logoutHandler } from "@/src/app/actions";
-import { auth } from "@/src/app/auth";
+import { auth } from "@/src/auth";
 
 const HeaderCommon = async () => {
   const session = await auth();

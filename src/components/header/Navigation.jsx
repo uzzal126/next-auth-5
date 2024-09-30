@@ -16,6 +16,14 @@ const Navigation = () => {
         </li>
         <li className="group relative">
           <Link
+            href="/dashboard"
+            className="py-6 text-lg text-heading hover:text-primary"
+          >
+            Dashboard
+          </Link>
+        </li>
+        <li className="group relative">
+          <Link
             href="/about"
             className="py-6 text-lg text-heading hover:text-primary"
           >

@@ -1,5 +1,6 @@
 "use server";
-import { signIn, signOut } from "@/src/app/auth";
+
+import { signIn, signOut } from "@/src/auth";
 
 export const socialLogin = async (formData) => {
   const action = formData.get("action");
@@ -11,7 +12,6 @@ export const logoutHandler = async () => {
 };
 
 export const credentialLogin = async (formData) => {
-  console.log("formData test >>", formData);
   try {
     const response = await signIn("credentials", {
       email: formData.get("email"),

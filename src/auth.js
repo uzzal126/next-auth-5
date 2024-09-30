@@ -1,8 +1,8 @@
+import { getUserByEmail } from "@/src/data/users";
 import NextAuth from "next-auth";
 import credentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { getUserByEmail } from "../data/users";
 
 export const {
   handlers: { GET, POST },

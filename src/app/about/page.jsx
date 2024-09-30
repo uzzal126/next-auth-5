@@ -1,6 +1,4 @@
-import { auth } from "@/src/app/auth";
 import LayoutStyleOne from "@/src/components/layouts/LayoutStyleOne";
-import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "About Us",
@@ -8,8 +6,6 @@ export const metadata = {
 };
 
 const AboutView = async () => {
-  const session = await auth();
-  if (!session) redirect("/login");
   return (
     <LayoutStyleOne>
       <main>
