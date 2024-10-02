@@ -1,4 +1,3 @@
-import { getUserByEmail } from "@/src/data/users";
 import NextAuth from "next-auth";
 import credentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
@@ -20,22 +19,32 @@ export const {
         password: {},
       },
       async authorize(credentials) {
-        if (credentials === null) return null;
+        if (!credentials) return null;
 
         try {
-          const user = getUserByEmail(credentials?.email);
-          if (user) {
-            const isMatch = user?.password === credentials.password;
-            if (isMatch) {
-              return user;
-            } else {
-              throw new Error("Check your password");
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+              }),
             }
+          );
+
+          const data = await response.json();
+
+          if (data.success && data.token) {
+            return {
+              accessToken: data.token,
+            };
           } else {
-            throw new Error("User not found!");
+            return null;
           }
         } catch (error) {
-          throw new Error(error);
+          console.log("test error >>", error);
         }
       },
     }),
@@ -64,4 +73,20 @@ export const {
       },
     }),
   ],
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user?.accessToken) {
+        token.accessToken = user.accessToken;
+      }
+
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });

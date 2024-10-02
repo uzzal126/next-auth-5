@@ -1,6 +1,6 @@
 import { auth } from "@/src/auth";
 import LayoutStyleOne from "@/src/components/layouts/LayoutStyleOne";
-import Image from "next/image";
+// import Image from "next/image";
 
 export const metadata = {
   title: "Dashboard",
@@ -8,14 +8,22 @@ export const metadata = {
 };
 
 const DashboardView = async () => {
-  const { user } = await auth();
+  const session = await auth();
+  // const { user } = await auth();
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
+    headers: { Authorization: `Bearer ${session?.accessToken}` },
+  });
+  const data = await res?.json();
+
   return (
     <LayoutStyleOne>
       <main>
         <h3 className="text-xl text-heading text-center mt-5">
           This is dashboard page
         </h3>
-        <div className="border rounded-10 p-5 mt-5 max-w-80 mx-auto">
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        {/* <div className="border rounded-10 p-5 mt-5 max-w-80 mx-auto">
           <div className="flex">
             {user?.image && (
               <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
@@ -32,7 +40,7 @@ const DashboardView = async () => {
               <p>{user?.email}</p>
             </div>
           </div>
-        </div>
+        </div> */}
       </main>
     </LayoutStyleOne>
   );

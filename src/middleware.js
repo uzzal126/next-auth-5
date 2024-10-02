@@ -1,26 +1,34 @@
-import { authConfig } from "@/src/auth.config";
-import NextAuth from "next-auth";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
-const { auth } = NextAuth(authConfig);
-
 export async function middleware(request) {
-  const { nextUrl } = request;
-  const session = await auth();
-  const isAuthenticated = !!session?.user;
-
-  const protectedRoutes = ["/about", "/dashboard"];
   const { pathname } = request.nextUrl;
 
-  // Redirect to login if user is not authenticated and trying to access protected routes
-  if (!session && protectedRoutes.some((route) => pathname.startsWith(route))) {
+  // Define the protected routes
+  const protectedRoutes = ["/about", "/dashboard"];
+
+  // Retrieve the JWT token from the request
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+  // Check if the token is present (i.e., the user is authenticated)
+  const isAuthenticated = !!token;
+
+  // If user is not authenticated and trying to access a protected route, redirect to login
+  if (
+    !isAuthenticated &&
+    protectedRoutes.some((route) => pathname.startsWith(route))
+  ) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Redirect authenticated users away from login page
-  if (session && pathname === "/login") {
+  // If user is authenticated and trying to access the login page, redirect to the dashboard
+  if (isAuthenticated && pathname === "/login") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  // Allow the request to proceed
   return NextResponse.next();
 }
