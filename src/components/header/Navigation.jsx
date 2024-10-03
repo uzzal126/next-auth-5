@@ -24,10 +24,10 @@ const Navigation = () => {
         </li>
         <li className="group relative">
           <Link
-            href="/about"
+            href="/blog"
             className="py-6 text-lg text-heading hover:text-primary"
           >
-            About
+            Blog
           </Link>
         </li>
       </ul>

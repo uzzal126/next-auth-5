@@ -1,5 +1,5 @@
-import { auth } from "@/src/auth";
 import LayoutStyleOne from "@/src/components/layouts/LayoutStyleOne";
+import apiClient from "@/src/utils/apiClient";
 // import Image from "next/image";
 
 export const metadata = {
@@ -8,13 +8,7 @@ export const metadata = {
 };
 
 const DashboardView = async () => {
-  const session = await auth();
-  // const { user } = await auth();
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
-    headers: { Authorization: `Bearer ${session?.accessToken}` },
-  });
-  const data = await res?.json();
+  const data = await apiClient("/users");
 
   return (
     <LayoutStyleOne>

@@ -5,7 +5,7 @@ export async function middleware(request) {
   const { pathname } = request.nextUrl;
 
   // Define the protected routes
-  const protectedRoutes = ["/about", "/dashboard"];
+  const protectedRoutes = ["/blog", "/dashboard"];
 
   // Retrieve the JWT token from the request
   const token = await getToken({
@@ -13,7 +13,7 @@ export async function middleware(request) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  // Check if the token is present (i.e., the user is authenticated)
+  // Check if the token is present
   const isAuthenticated = !!token;
 
   // If user is not authenticated and trying to access a protected route, redirect to login
