@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
@@ -15,6 +16,22 @@ export async function middleware(request) {
 
   // Check if the token is present
   const isAuthenticated = !!token;
+
+  // Checking user is admin or not
+  const adminMiddleware = () => {
+    if (token?.accessToken) {
+      const decodedToken = jwt.decode(token.accessToken);
+      return decodedToken && decodedToken.role === "admin";
+    }
+    return false;
+  };
+
+  const isAdmin = adminMiddleware();
+
+  // Redirect non-admin users trying to access admin-protected routes
+  if (pathname.startsWith("/dashboard") && !isAdmin) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   // If user is not authenticated and trying to access a protected route, redirect to login
   if (
